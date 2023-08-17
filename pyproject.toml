@@ -7,6 +7,27 @@ license = "MIT"
 readme = "README.md"
 packages = [{include = "wrap_logger"}]
 
+repository = "https://github.com/MiguelGuthridge/python-wrap-logger"
+documentation = "https://miguelguthridge.github.io/python-wrap-logger/"
+
+keywords = [
+    "log",
+    "logger",
+    "wrapper",
+    "wrap",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Typing :: Typed",
+    "Topic :: Utilities",
+    "Topic :: System :: Logging",
+]
+include = ["py.typed"]
+
 [tool.poetry.dependencies]
 python = "^3.9"
 
