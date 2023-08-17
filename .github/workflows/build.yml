@@ -11,10 +11,10 @@ jobs:
         submodules: 'recursive'
     - name: Copy other required files
       run: |
-        cp .gitignore src/.gitignore
-        cp README.md src/README.md
-        cp LICENSE src/LICENSE
+        cp .gitignore wrap_logger/.gitignore
+        cp README.md wrap_logger/README.md
+        cp LICENSE.md wrap_logger/LICENSE.md
     - uses: actions/upload-artifact@v3
       with:
         name: 'wrap-logger'
-        path: src
+        path: wrap_logger
