@@ -50,15 +50,8 @@ obj.echo('hello world')
 from wrap_logger import wrap
 
 class Simple:
-    """Simple class for testing purposes"""
     def __init__(self) -> None:
         self.value = 42
-
-    def __repr__(self) -> str:
-        return 'simple'
-
-    def echo(self, value: str) -> str:
-        return value
 
 
 # Wrap an instance of the object
@@ -91,6 +84,19 @@ from wrap_logger import wrap
 ...
 ```
 
+### Logging to a file
+
+`wrap-logger` will write to any file you give it.
+
+```py
+import sys
+from wrap_logger import wrap
+
+some_object = object()
+wrapped = wrap(some_object, output=sys.stderr)
+# All logs will go to stderr
+```
+
 ## Implementation details
 
 `wrap-logger` wraps objects in a `WrapLogger` class. Although the class does
@@ -104,10 +110,31 @@ to potentially erroneous behaviour.
 it is incomplete. If there is demand (hint: create an issue), I will be happy
 to try my hand at implementing the following features:
 
-* [ ] Specify output file that `wrap-logger` prints to
 * [ ] Recursive wrapping, so that attributes of attributes are also logged
 * [ ] Configuration on what is/isn't logged (currently it just prints
       everything)
 * [ ] Figure out what happens if you use `wrap-logger` on itself. Does it
       crash? Does it delete System 32? Does the space-time continuum collapse?
       Who knows!
+
+## MIT License
+
+Copyright (c) 2023 Miguel Guthridge
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
