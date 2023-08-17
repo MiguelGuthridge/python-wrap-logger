@@ -63,6 +63,13 @@ obj.echo('hello world')
 # [WRAP LOG] < Call simple.echo('hello world'): returned 'hello world'
 ```
 
+### Without Pip
+
+`wrap-logger` requires no dependencies, and can even function with some parts
+of the standard library missing. Simply head over to the releases tab where the
+ZIP file is bundled, then extract it into your project in a place where you can
+import it easily. You should be able to use it normally.
+
 ## Implementation details
 
 `wrap-logger` wraps objects in a `WrapLogger` class. Although the class does
@@ -80,3 +87,6 @@ to try my hand at implementing the following features:
 * [ ] Recursive wrapping, so that attributes of attributes are also logged
 * [ ] Configuration on what is/isn't logged (currently it just prints
       everything)
+* [ ] Figure out what happens if you use `wrap-logger` on itself. Does it
+      crash? Does it delete System 32? Does the space-time continuum collapse?
+      Who knows!
