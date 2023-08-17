@@ -1,14 +1,20 @@
 from __future__ import annotations
 import sys
-from typing import (
-    Any,
-    Optional,
-    ParamSpec,
-    TextIO,
-    TypeVar,
-    Generic,
-    TYPE_CHECKING,
-)
+
+# Some environments where wrap-logger needs to run don't include the typing
+# module, so silence any import errors to make it work there
+try:
+    from typing import (
+        Any,
+        Optional,
+        TextIO,
+        TypeVar,
+        Generic,
+        TYPE_CHECKING,
+    )
+    from typing_extensions import ParamSpec
+except ImportError:
+    pass
 
 from itertools import chain
 
