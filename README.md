@@ -67,8 +67,9 @@ obj.echo('hello world')
 
 `wrap-logger` requires no dependencies, and can even function with some parts
 of the standard library missing. Simply head over to the releases tab where the
-ZIP file is bundled, then extract it into your project in a place where you can
-import it easily. You should be able to use it normally.
+`wrap-logger.zip` file is attached, then extract it into a new folder within
+your project, where you can import it easily. You should then be able to use it
+normally, importing it from your desired location.
 
 ## Implementation details
 
