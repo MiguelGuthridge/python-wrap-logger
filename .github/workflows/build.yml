@@ -1,4 +1,4 @@
-name: Build wrapper
+name: Build wrap-logger
 
 on: [push]
 
