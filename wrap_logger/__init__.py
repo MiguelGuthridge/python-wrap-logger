@@ -143,4 +143,5 @@ SOFTWARE.
 from .__wrap_logger import wrap
 
 
+__version__ = '0.2.0'
 __all__ = ['wrap']
