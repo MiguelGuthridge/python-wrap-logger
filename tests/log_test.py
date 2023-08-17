@@ -1,6 +1,7 @@
 """
 Tests for the "logginess" of WrapLogger
 """
+import sys
 from jestspectation import Equals, StringContaining
 import pytest
 from pytest import CaptureFixture
@@ -105,4 +106,42 @@ def test_capture_module_function(capsys: CaptureFixture):
         ),
         "[WRAP LOG] > Call tests.example_module.foo()",
         "[WRAP LOG] < Call tests.example_module.foo(): returned 42",
+    ])
+
+
+def test_output_to_file_get(capsys: CaptureFixture):
+    """Are outputs written to the correct files for __getattr__?"""
+    wrapped = wrap(Simple(), output=sys.stderr)
+    wrapped.value
+
+    capture = capsys.readouterr()
+
+    assert capture.err.strip() == '\n'.join([
+        "[WRAP LOG] > Get  simple.value",
+        "[WRAP LOG] < Get  simple.value: gave 42",
+    ])
+
+
+def test_output_to_file_set(capsys: CaptureFixture):
+    """Are outputs written to the correct files for __setattr__?"""
+    wrapped = wrap(Simple(), output=sys.stderr)
+    wrapped.value = 43
+
+    capture = capsys.readouterr()
+    assert capture.err.strip() == '\n'.join([
+        "[WRAP LOG] > Set  simple.value: 42 -> 43",
+        "[WRAP LOG] < Set  simple.value",
+    ])
+
+
+def test_output_to_file_call(capsys: CaptureFixture):
+    """Are outputs written to the correct files for __call__?"""
+    wrapped = wrap(Simple(), output=sys.stderr)
+
+    wrapped(1, 2, a=3, b=4)
+
+    capture = capsys.readouterr()
+    assert capture.err.strip() == '\n'.join([
+        '[WRAP LOG] > Call simple(1, 2, a=3, b=4)',
+        '[WRAP LOG] < Call simple(1, 2, a=3, b=4): returned 10',
     ])

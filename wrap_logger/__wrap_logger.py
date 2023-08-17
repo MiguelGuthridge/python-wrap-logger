@@ -30,8 +30,6 @@ def get_item_name(item: 'Any') -> str:
         return repr(item)
 
 
-# INVESTIGATE: Is using a generic here useful?
-# Keeping it for the time being, but may remove if it's not helpful
 class WrapLogger:
     def __init__(
         self,
@@ -57,13 +55,19 @@ class WrapLogger:
             return getattr(self.__subject, attr_name)
 
         full_name = f"{self.__name}.{attr_name}"
-        print(f"[WRAP LOG] > Get  {full_name}")
+        print(f"[WRAP LOG] > Get  {full_name}", file=self.__output)
         try:
             value = getattr(self.__subject, attr_name)
         except Exception as e:
-            print(f"[WRAP LOG] < Get  {full_name}: raised {repr(e)}")
+            print(
+                f"[WRAP LOG] < Get  {full_name}: raised {repr(e)}",
+                file=self.__output,
+            )
             raise
-        print(f"[WRAP LOG] < Get  {full_name}: gave {repr(value)}")
+        print(
+            f"[WRAP LOG] < Get  {full_name}: gave {repr(value)}",
+            file=self.__output,
+        )
         # For functions, add another layer of wrap log
         if callable(value):
             return WrapLogger(value, only_for_call=True, name=full_name)
@@ -84,9 +88,12 @@ class WrapLogger:
             og_val = repr(getattr(self.__subject, attr_name))
         except AttributeError:
             og_val = "[unassigned]"
-        print(f"[WRAP LOG] > Set  {full_name}: {og_val} -> {repr(new_val)}")
+        print(
+            f"[WRAP LOG] > Set  {full_name}: {og_val} -> {repr(new_val)}",
+            file=self.__output,
+        )
         setattr(self.__subject, attr_name, new_val)
-        print(f"[WRAP LOG] < Set  {full_name}")
+        print(f"[WRAP LOG] < Set  {full_name}", file=self.__output)
 
     def __call__(
         self,
@@ -101,11 +108,14 @@ class WrapLogger:
 
         call_sign = f"{self.__name}({args_string})"
 
-        print(f"[WRAP LOG] > Call {call_sign}")
+        print(f"[WRAP LOG] > Call {call_sign}", file=self.__output)
         # Ignore the mypy error, if this causes an exception, it's on the user
         # and mypy should have warned them regardless
         ret = self.__subject(*args, **kwargs)  # type: ignore
-        print(f"[WRAP LOG] < Call {call_sign}: returned {repr(ret)}")
+        print(
+            f"[WRAP LOG] < Call {call_sign}: returned {repr(ret)}",
+            file=self.__output,
+        )
         return ret
 
     @property
@@ -125,7 +135,7 @@ class WrapLogger:
         self.__subject.__class__ = new_class
 
 
-def wrap(subject: 'T') -> 'T':
+def wrap(subject: 'T', output: 'TextIO' = sys.stdout) -> 'T':
     """
     Wrap an object so that its property accesses and method calls are logged
     """
@@ -134,4 +144,4 @@ def wrap(subject: 'T') -> 'T':
     if TYPE_CHECKING:
         return subject
     else:
-        return WrapLogger(subject)
+        return WrapLogger(subject, output=output)
