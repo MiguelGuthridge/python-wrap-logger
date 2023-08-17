@@ -1,4 +1,3 @@
-from __future__ import annotations
 import sys
 
 # Some environments where wrap-logger needs to run don't include the typing
@@ -9,21 +8,22 @@ try:
         Optional,
         TextIO,
         TypeVar,
-        Generic,
         TYPE_CHECKING,
     )
     from typing_extensions import ParamSpec
 except ImportError:
+    TYPE_CHECKING = False
     pass
 
 from itertools import chain
 
 
-T = TypeVar('T')
-P = ParamSpec('P')
+if TYPE_CHECKING:
+    T = TypeVar('T')
+    P = ParamSpec('P')
 
 
-def get_item_name(item: Any) -> str:
+def get_item_name(item: 'Any') -> str:
     try:
         return item.__name__
     except AttributeError:
@@ -32,14 +32,14 @@ def get_item_name(item: Any) -> str:
 
 # INVESTIGATE: Is using a generic here useful?
 # Keeping it for the time being, but may remove if it's not helpful
-class WrapLogger(Generic[T]):
+class WrapLogger:
     def __init__(
         self,
-        subject: T,
+        subject: 'Any',
         depth: int = 0,
         only_for_call: bool = False,
-        name: Optional[str] = None,
-        output: TextIO = sys.stdout,
+        name: 'Optional[str]' = None,
+        output: 'TextIO' = sys.stdout,
     ) -> None:
         self.__name = name if name is not None else get_item_name(subject)
         self.__subject = subject
@@ -47,7 +47,7 @@ class WrapLogger(Generic[T]):
         self.__output = output
         self.__only_for_call = only_for_call
 
-    def __getattr__(self, attr_name: str) -> Any:
+    def __getattr__(self, attr_name: str) -> 'Any':
         # Escape hatch for internal properties to prevent infinite recursion
         if attr_name.startswith(f"_{WrapLogger.__name__}__"):
             return super().__getattribute__(attr_name)
@@ -69,7 +69,7 @@ class WrapLogger(Generic[T]):
             return WrapLogger(value, only_for_call=True, name=full_name)
         return value
 
-    def __setattr__(self, attr_name: str, new_val: Any) -> None:
+    def __setattr__(self, attr_name: str, new_val: 'Any') -> None:
         # Escape hatch for internal properties to prevent setting internal
         # properties on the subject class
         if attr_name.startswith(f"_{WrapLogger.__name__}__"):
@@ -88,7 +88,11 @@ class WrapLogger(Generic[T]):
         setattr(self.__subject, attr_name, new_val)
         print(f"[WRAP LOG] < Set  {full_name}")
 
-    def __call__(self, *args: tuple[Any, ], **kwargs: dict[str, Any]) -> Any:
+    def __call__(
+        self,
+        *args: 'Any',
+        **kwargs: 'Any',
+    ) -> 'Any':
         kwargs_strings = map(
             lambda pair: f"{pair[0]}={repr(pair[1])}",
             kwargs.items(),
@@ -121,7 +125,7 @@ class WrapLogger(Generic[T]):
         self.__subject.__class__ = new_class
 
 
-def wrap(subject: T) -> T:
+def wrap(subject: 'T') -> 'T':
     """
     Wrap an object so that its property accesses and method calls are logged
     """
