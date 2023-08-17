@@ -1,0 +1,20 @@
+name: Build wrapper
+
+on: [push]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+    - name: Copy other required files
+      run: |
+        cp .gitignore src/.gitignore
+        cp README.md src/README.md
+        cp LICENSE src/LICENSE
+    - uses: actions/upload-artifact@v3
+      with:
+        name: 'wrap-logger'
+        path: src
