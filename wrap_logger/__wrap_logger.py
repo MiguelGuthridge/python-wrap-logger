@@ -1,4 +1,33 @@
-import sys
+"""
+# Wrap Logger
+
+A library to wrap around objects and modules in Python and log property
+accesses and calls.
+
+This file contains the under-the-hood implementation of the tool.
+
+## MIT License
+
+Copyright (c) 2023 Miguel Guthridge
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
 
 # Some environments where wrap-logger needs to run don't include the typing
 # module, so silence any import errors to make it work there
@@ -31,16 +60,20 @@ def get_item_name(item: 'Any') -> str:
 
 
 class WrapLogger:
+    """
+    Wrapper class. Wraps around objects to provide the logging functionality.
+    """
     def __init__(
         self,
         subject: 'Any',
         depth: int = 0,
         only_for_call: bool = False,
         name: 'Optional[str]' = None,
-        output: 'TextIO' = sys.stdout,
+        output: 'Optional[TextIO]' = None,
     ) -> None:
         self.__name = name if name is not None else get_item_name(subject)
         self.__subject = subject
+        # TODO: Use this
         self.__depth = depth
         self.__output = output
         self.__only_for_call = only_for_call
@@ -135,9 +168,17 @@ class WrapLogger:
         self.__subject.__class__ = new_class
 
 
-def wrap(subject: 'T', output: 'TextIO' = sys.stdout) -> 'T':
+def wrap(subject: 'T', output: 'Optional[TextIO]' = None) -> 'T':
     """
     Wrap an object so that its property accesses and method calls are logged
+
+    Args:
+        subject (T): object to wrap
+        output (Optional[TextIO], optional): output file to write to. Defaults
+            to None for stdout.
+
+    Returns:
+        T: the wrapped object
     """
     # Make tools like mypy and pylance still offer the original type checking
     # for user code
