@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "wrap_logger"}]
 
 repository = "https://github.com/MiguelGuthridge/python-wrap-logger"
-documentation = "https://miguelguthridge.github.io/python-wrap-logger/"
+documentation = "https://github.com/MiguelGuthridge/python-wrap-logger"
 
 keywords = [
     "log",
@@ -27,6 +27,10 @@ classifiers = [
     "Topic :: System :: Logging",
 ]
 include = ["py.typed"]
+
+[tool.poetry.urls]
+"Online Documentation" = "https://github.com/MiguelGuthridge/python-wrap-logger"
+"Bug Tracker" = "https://github.com/MiguelGuthridge/python-wrap-logger/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"
