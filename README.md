@@ -3,6 +3,8 @@
 A library to wrap around objects and modules in Python and log property
 accesses and calls.
 
+`pip install wrap-logger`
+
 ## Rationale
 
 In some cases when programming, errors can break things to the point where
@@ -25,6 +27,21 @@ from wrap_logger import wrap
 
 # Now all function calls and global reads/writes will be logged
 foo = wrap(foo)
+
+# Getting a property causes things to be logged
+foo.bar
+# [WRAP LOG] > Get  foo.bar
+# [WRAP LOG] < Get  foo.bar: gave 42
+
+# Same for setting properties
+obj.bar = 43
+# [WRAP LOG] > Set  foo.bar: 42 -> 43
+# [WRAP LOG] < Set  foo.bar
+
+# And calling functions
+obj.echo('hello world')
+# [WRAP LOG] > Call foo.echo('hello world')
+# [WRAP LOG] < Call foo.echo('hello world'): returned 'hello world'
 ```
 
 ### With a class
@@ -44,23 +61,8 @@ class Simple:
         return value
 
 
+# Wrap an instance of the object
 obj = wrap(Simple())
-
-
-# Getting a property causes things to be logged
-variable = obj.value
-# [WRAP LOG] > Get  simple.value
-# [WRAP LOG] < Get  simple.value: gave 42
-
-# Same for setting properties
-obj.value = 43
-# [WRAP LOG] > Set  simple.value: 42 -> 43
-# [WRAP LOG] < Set  simple.value
-
-# And calling functions
-obj.echo('hello world')
-# [WRAP LOG] > Call simple.echo('hello world')
-# [WRAP LOG] < Call simple.echo('hello world'): returned 'hello world'
 ```
 
 ### Without Pip
@@ -68,8 +70,26 @@ obj.echo('hello world')
 `wrap-logger` requires no dependencies, and can even function with some parts
 of the standard library missing. Simply head over to the releases tab where the
 `wrap-logger.zip` file is attached, then extract it into a new folder within
-your project, where you can import it easily. You should then be able to use it
-normally, importing it from your desired location.
+your project, where you can import it easily.
+
+Here is an example file structure:
+
+```txt
++ program.py
++ wrap_logger/  (you create this folder and place the files into it)
+    + __init__.py
+    + __wrap_logger.py
+    + etc
+```
+
+You should then be able to use it normally:
+
+```py
+# program.py
+from wrap_logger import wrap
+
+...
+```
 
 ## Implementation details
 
