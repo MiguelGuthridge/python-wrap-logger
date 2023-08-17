@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "python-wrap-logger"
+version = "0.1.0"
+description = "A library to wrap around objects and modules in Python and log property accesses and calls"
+authors = ["Miguel Guthridge <hdsq@outlook.com.au>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "python_wrap_logger"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+coverage = "^7.3.0"
+flake8 = "^6.1.0"
+mypy = "^1.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
