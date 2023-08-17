@@ -9,8 +9,8 @@ In some cases when programming, errors can break things to the point where
 you have no idea where things went wrong, for example, crashing the runtime
 environment before a backtrace can be printed. In these cases, it can be
 extremely useful to log changes to data that are potentially related to the
-issue, but doing so can be tedious and slow. We need a simple solution to
-easily inject logging into objects. `wrap-logger` is the answer.
+issue, but doing so can be tedious and slow. I needed a simple solution to
+easily inject logging into objects, and so I created `wrap-logger`.
 
 ## Usage
 
