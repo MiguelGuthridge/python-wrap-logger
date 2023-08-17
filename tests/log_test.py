@@ -1,9 +1,10 @@
 """
 Tests for the "logginess" of WrapLogger
 """
+from jestspectation import Equals, StringContaining
 import pytest
 from pytest import CaptureFixture
-from python_wrap_logger import wrap
+from wrap_logger import wrap
 from .helpers import Simple
 
 
@@ -85,4 +86,23 @@ def test_capture_call_method(capsys: CaptureFixture):
         "<bound method Simple.echo of simple>",
         "[WRAP LOG] > Call simple.echo('hi')",
         "[WRAP LOG] < Call simple.echo('hi'): returned 'hi'",
+    ])
+
+
+def test_capture_module_function(capsys: CaptureFixture):
+    """Are function calls from wrapped modules logged?"""
+    from . import example_module
+    wrapped = wrap(example_module)
+
+    wrapped.foo()
+
+    capture = capsys.readouterr()
+    assert capture.out.strip().splitlines() == Equals([
+        "[WRAP LOG] > Get  tests.example_module.foo",
+        StringContaining(
+            "[WRAP LOG] < Get  tests.example_module.foo: gave "
+            "<function foo at 0x"
+        ),
+        "[WRAP LOG] > Call tests.example_module.foo()",
+        "[WRAP LOG] < Call tests.example_module.foo(): returned 42",
     ])
