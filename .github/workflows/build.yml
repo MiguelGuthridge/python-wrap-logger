@@ -6,7 +6,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
     - name: Copy other required files
@@ -14,7 +14,7 @@ jobs:
         cp .gitignore wrap_logger/.gitignore
         cp README.md wrap_logger/README.md
         cp LICENSE.md wrap_logger/LICENSE.md
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: 'wrap-logger'
         path: wrap_logger
