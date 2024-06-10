@@ -2,13 +2,13 @@
 name = "wrap-logger"
 version = "0.2.0"
 description = "A library to wrap around objects and modules in Python and log property accesses and calls"
-authors = ["Miguel Guthridge <hdsq@outlook.com.au>"]
+authors = ["Maddy Guthridge <hdsq@outlook.com.au>"]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "wrap_logger"}]
 
-repository = "https://github.com/MiguelGuthridge/python-wrap-logger"
-documentation = "https://github.com/MiguelGuthridge/python-wrap-logger"
+repository = "https://github.com/MaddyGuthridge/python-wrap-logger"
+documentation = "https://github.com/MaddyGuthridge/python-wrap-logger"
 
 keywords = [
     "log",
@@ -29,8 +29,8 @@ classifiers = [
 include = ["py.typed"]
 
 [tool.poetry.urls]
-"Online Documentation" = "https://github.com/MiguelGuthridge/python-wrap-logger"
-"Bug Tracker" = "https://github.com/MiguelGuthridge/python-wrap-logger/issues"
+"Online Documentation" = "https://github.com/MaddyGuthridge/python-wrap-logger"
+"Bug Tracker" = "https://github.com/MaddyGuthridge/python-wrap-logger/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"
